@@ -1,0 +1,6 @@
+#    Specifies whether to generate Peanut Butter & Jelly Pup nodes
+pbj_pup_generate (Generate pup nodes) bool true
+
+#    Enabling will register aliases for the old Nyan Cat nodes.
+#    This will prevent unknown nodes in existing worlds.
+pbj_pup_alias_nyancat (Alias Nyan Cat) bool false

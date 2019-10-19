@@ -1,19 +1,22 @@
 
 --[[
 
-  Minetest's official Peanut Butter & Jelly Pup mod
+	The Peanut Butter & Jelly Pup mod
+
+	A free/libre alternative to the protected Nyan Cat.
 
 ]]--
 
-local enable = minetest.setting_getbool("pbj_pup_enable")
-if enable == false then
-	return
+if not minetest.is_player then
+	error("[pbj_pup] Your Minetest version is no longer supported."
+		.. " (Version < 5.0.0)")
 end
 
 local function howl(ttl, player)
-	if not player then
+	if not minetest.is_player(player) then
 		return
 	end
+
 	ttl = ttl - 15
 	if ttl < 0 then
 		return
@@ -82,7 +85,7 @@ minetest.register_node("pbj_pup:pbj_pup_candies", {
 --
 -- mapgen
 --
-local gen = minetest.setting_getbool("pbj_pup_generate")
+local gen = minetest.settings:get_bool("pbj_pup_generate")
 if gen == nil or gen then
 	local function place(pos, facedir, length)
 		if facedir > 3 then
@@ -126,7 +129,7 @@ end
 -- compat
 --
 
-if minetest.setting_getbool("pbj_pup_alias_nyancat") then
+if minetest.settings:get_bool("pbj_pup_alias_nyancat") then
 	minetest.register_alias("default:nyancat", "pbj_pup:pbj_pup")
 	minetest.register_alias("default:nyancat_rainbow","pbj_pup:pbj_pup_candies")
 	minetest.register_alias("nyancat", "pbj_pup:pbj_pup")
