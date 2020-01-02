@@ -12,20 +12,11 @@ if not minetest.is_player then
 		.. " (Version < 5.0.0)")
 end
 
-local function howl(ttl, player)
+local function howl(player)
 	if not minetest.is_player(player) then
 		return
 	end
 
-	ttl = ttl - 15
-	if ttl < 0 then
-		return
-	end
-
-	minetest.sound_play("pbj_pup_howl", {object = player, loop = false})
-	minetest.do_item_eat(5, nil, ItemStack("pbj_pup:pbj_pup"), player, nil)
-
-	minetest.after(15, howl, ttl, player)
 end
 
 --
@@ -50,9 +41,8 @@ minetest.register_node("pbj_pup:pbj_pup", {
 	sounds = default.node_sound_defaults(),
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
-		howl(300, user)
-		itemstack:take_item()
-		return itemstack
+		minetest.sound_play("pbj_pup_howl", {object = user, loop = false})
+		return minetest.do_item_eat(5, nil, ItemStack("pbj_pup:pbj_pup"), user, pointed_thing)
 	end,
 })
 
@@ -75,10 +65,8 @@ minetest.register_node("pbj_pup:pbj_pup_candies", {
 	stack_max = 5,
 	sounds = default.node_sound_defaults(),
 	on_use = function(itemstack, user, pointed_thing)
-		minetest.do_item_eat(5, nil, itemstack, user, pointed_thing)
 		minetest.sound_play("pbj_pup_barks", {object = user, loop = false})
-		itemstack:take_item()
-		return itemstack
+		return minetest.do_item_eat(5, nil, itemstack, user, pointed_thing)
 	end,
 })
 
